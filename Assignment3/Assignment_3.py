@@ -3,61 +3,69 @@
 # pip install selenium
 
 from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
+# from selenium.webdriver.common.keys import Keys
 import time
 
 # Setting up the webdriver
 driver = webdriver.Chrome()
 
+# Maximize the Chrome window
+driver.maximize_window()
+
 # Navigating to the Amazon.ca homepage
 driver.get("https://www.whatsapp.com/")
-time.sleep(3)
-
-# Finding the search bar and entering text
-# Features = driver.find_element_by_id("id","u_0_7_GP") old syntax
-Features = driver.find_element("id","u_0_7_GP")
-Features.send_keys("Click")
-
-# Submitting the search query
-search_bar.send_keys(Keys.RETURN)
-
-# Waiting for the search results page to load
-time.sleep(5)
-
-# Verifying that the search results page has loaded
-assert "laptop" in driver.title
-
-# Selecting a laptop from the search results
-laptop_link = driver.find_element("xpath","/html/body/div[1]/div[2]/div[1]/div[1]/div/span[1]/div[1]/div[3]/div/div/div/div/div/div/div[1]/span/a/div/img")
-# laptop_link = driver.find_element("By.CSS_SELECTOR","span[data-component-type='s-product-image'] a")
-laptop_link.click()
-
-
-
-# Waiting for the laptop details page to load
-time.sleep(5)
-
-# Adding the laptop to the cart
-add_to_cart_button = driver.find_element("id","add-to-cart-button")
-add_to_cart_button.click()
-
-# Waiting for the cart to update
-time.sleep(5)
-
-# Clicking on no thanks button
-no_thanks_button= driver.find_element("xpath","/html/body/div[9]/div[3]/div[1]/div/div/div[2]/div[2]/div/div/div[3]/div/span[2]/span/input")
-no_thanks_button.click()
 time.sleep(2)
 
-proceed_to_checkout= driver.find_element("xpath","/html/body/div[1]/div[2]/div/div[1]/div[2]/div/div[3]/div/div[1]/form/span/span/span/input")
-proceed_to_checkout.click()
+# Selecting a Features Tab from the Header
+Features_link = driver.find_element("xpath",
+                                    "/html/body/div[1]/div[1]/div[1]/header/div/nav/ul/li[1]/div/button/span/span")
+
+# Click the element
+Features_link.click()
+
+# Waiting for Feature menu page to finish loading
 time.sleep(2)
 
+# Selecting a "Stay Connected1" option from Features Tab
+Stay_connected = driver.find_element("xpath",
+                                     "/html/body/div[1]/div[1]/div[1]/header/div/nav/ul/li[1]/div/div/ul/li[2]/a")
 
-# Verifying that the laptop has been added to the cart
-# cart_count = driver.find_element("id","nav-cart-count")
-# assert cart_count.text == "1"
-# cart_count.click()
+# Click the element
+Stay_connected.click()
+
+# Waiting to Open "Stay Connected" page
+time.sleep(2)
+
+# Scroll down the page using the END key
+driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+
+# Scroll down the page slowly
+scroll_height = driver.execute_script("return document.body.scrollHeight;")
+scroll_increment = 600  # Adjust the scroll increment as needed
+scroll_delay = 1  # Adjust the scroll delay (in seconds) as needed
+
+for i in range(0, scroll_height, scroll_increment):
+    driver.execute_script(f"window.scrollTo(0, {i});")
+    time.sleep(2)
+
+# Selecting an "About us" option from Footer
+About_us = driver.find_element("xpath", "/html/body/div[1]/div[2]/div/footer/div[2]/div/div[3]/a[1]")
+
+# Click the element
+About_us.click()
+
+# Waiting to load "About US" page
+time.sleep(4)
+
+# Selecting a "Whatsapp Web" option
+Whatsapp_Web = driver.find_element("xpath", "/html/body/div[1]/div[1]/div[1]/header/div/div[2]/span/span/a")
+
+# Click the element
+Whatsapp_Web.click()
+
+# Waiting to load "Whatsapp_Web" page
+time.sleep(7)
+
 
 # Closing the webdriver
 driver.close()
